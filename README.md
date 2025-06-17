@@ -62,7 +62,7 @@ cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
         -DCMAKE_BUILD_TYPE=Release
 ```
 - Replace a3fe/run/system_prep.py with the same-named file from the attachment.
-- Alternatively,you can modify the lines following line 722 as shown below.
+- Alternatively, you can modify the lines following line 722 as shown below.
 ```
     process = _BSS.Process.Gromacs(system, protocol, work_dir=work_dir)
     #For non-bonded interactions is always safe to use
