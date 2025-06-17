@@ -721,7 +721,7 @@ def run_process(
     """
     process = _BSS.Process.Gromacs(system, protocol, work_dir=work_dir)
     #For non-bonded interactions is always safe to use
-    #process.setArg("-nb", "gpu")
+    process.setArg("-nb", "gpu")
     #Additional options (e.g., PME, bonded, update) should only be applied outside the minimization stage
     if not isinstance(protocol, _BSS.Protocol.Minimisation):
         process.setArg("-nb", "gpu")
