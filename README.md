@@ -1,5 +1,5 @@
 ## Low GPU Utilization 
-Low GPU Utilization When a3fe enter the stage of ensemble equilibration: https://github.com/michellab/a3fe/issues/50
+When a3fe enter the stage of ensemble equilibration, the GPU load drops sharply: https://github.com/michellab/a3fe/issues/50
 ## Solution
 - Ensure that GROMACS is configured to support CUDA acceleration instead of OPENCL.
    Currently, the version with OPENCL acceleration does not support many interactions and can lead to errors.
