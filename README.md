@@ -61,5 +61,4 @@ cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
         -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.6 \
         -DCMAKE_BUILD_TYPE=Release
 ```
-- Fix system_prep.py
-Replace a3fe/run/system_prep.py with the same-named file from the attachment. 
+- Replace a3fe/run/system_prep.py with the same-named file from the attachment. 
