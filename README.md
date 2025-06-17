@@ -80,7 +80,7 @@ cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
 ```
 ## run a3fe
 ```
-export NUMEXPR_MAX_THREADS=8 # 8 is good enough is require
+export NUMEXPR_MAX_THREADS=8 # 8 is good enough and matchs the GMX "-ntomp 8" flag.
 . /public/gkxiao/software/gromacs/gromacs_2025.2build20250617/bin/GMXRC
 ulimit -n 1048576
 python run_a3fe.py # the a3fe script
