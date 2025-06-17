@@ -1,5 +1,5 @@
-# a3fe-gromacs-issue
-Low GPU Utilization (1%) When a3fe enter the stage of ensemble equilibration: https://github.com/michellab/a3fe/issues/50
+## Low GPU Utilization 
+Low GPU Utilization When a3fe enter the stage of ensemble equilibration: https://github.com/michellab/a3fe/issues/50
 ## Solution
 - Ensure that GROMACS is configured to support CUDA acceleration instead of OPENCL.
    Currently, the version with OPENCL acceleration does not support many interactions and can lead to errors.
@@ -62,4 +62,4 @@ cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
         -DCMAKE_BUILD_TYPE=Release
 ```
 - Fix system_prep.py
-  Replace a3fe/run/system_prep.py with the same-named file from the attachment. 
+Replace a3fe/run/system_prep.py with the same-named file from the attachment. 
