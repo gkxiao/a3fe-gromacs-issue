@@ -61,4 +61,19 @@ cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
         -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.6 \
         -DCMAKE_BUILD_TYPE=Release
 ```
-- Replace a3fe/run/system_prep.py with the same-named file from the attachment. 
+- Replace a3fe/run/system_prep.py with the same-named file from the attachment.
+- Alternatively,you can modify the lines following line 722 as shown below.
+```
+    process = _BSS.Process.Gromacs(system, protocol, work_dir=work_dir)
+    #For non-bonded interactions is always safe to use
+    #process.setArg("-nb", "gpu")
+    #Additional options (e.g., PME, bonded, update) should only be applied outside the minimization stage
+    if not isinstance(protocol, _BSS.Protocol.Minimisation):
+        process.setArg("-nb", "gpu")
+        process.setArg("-pme", "gpu")
+        process.setArg("-bonded", "gpu")
+        process.setArg("-ntomp","8")
+    process.start()
+    process.wait()
+    import time
+```
