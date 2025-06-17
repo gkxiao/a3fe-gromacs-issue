@@ -45,7 +45,7 @@ This is my compilation method:
 cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
         -DCMAKE_CXX_COMPILER=/usr/bin/c++ \
         -DCMAKE_INSTALL_PREFIX=/public/gkxiao/software/gromacs/gromacs_2025.2build20250617 \
-        -DCUDA_NVCC_FLAGS="-arch=sm_89" \
+        -DCUDA_NVCC_FLAGS="-arch=sm_89" \  # optimize for AMD64 CPU
         -DGMX_CUDA_USE_UNIFIED_MEMORY=ON \
         -DGMX_MPI=OFF \
         -DGMX_THREAD_MPI=ON \
@@ -61,12 +61,13 @@ cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
         -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.6 \
         -DCMAKE_BUILD_TYPE=Release
 ```
+
 - Replace a3fe/run/system_prep.py with the same-named file from the attachment.
 - Alternatively, you can modify the lines following line 722 as shown below.
 ```
     process = _BSS.Process.Gromacs(system, protocol, work_dir=work_dir)
     #For non-bonded interactions is always safe to use
-    #process.setArg("-nb", "gpu")
+    process.setArg("-nb", "gpu")
     #Additional options (e.g., PME, bonded, update) should only be applied outside the minimization stage
     if not isinstance(protocol, _BSS.Protocol.Minimisation):
         process.setArg("-nb", "gpu")
@@ -76,4 +77,27 @@ cmake ..   -DCMAKE_C_COMPILER=/usr/bin/cc \
     process.start()
     process.wait()
     import time
+```
+## run a3fe
+```
+export NUMEXPR_MAX_THREADS=8 # 8 is good enough is require
+. /public/gkxiao/software/gromacs/gromacs_2025.2build20250617/bin/GMXRC
+ulimit -n 1048576
+python run_a3fe.py # the a3fe script
+```
+cat run_a3fe.py:
+```
+import a3fe as a3
+calc = a3.Calculation(ensemble_size = 5)
+calc.setup()
+# Get optimised lambda schedule with thermodynamic speed
+# of 2 kcal mol-1
+calc.get_optimal_lam_vals(delta_er = 2)
+# Run adaptively with a runtime constant of 0.0005 kcal**2 mol-2 ns**-1
+# Note that automatic equilibration detection with the paired t-test
+# method will also be carried out.
+calc.run(adaptive=True, runtime_constant = 0.0005)
+calc.wait()
+calc.analyse()
+calc.save()
 ```
